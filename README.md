@@ -1,70 +1,84 @@
-# Getting Started with Create React App
+# **Get Started**
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## **Crear una carpeta vacia y dentro ejecutar:**
 
-## Available Scripts
+    npx create-react-app name-app
+    cd name-app
+    yarn add -D @craco/craco autoprefixer postcss-nested tailwindcss
 
-In the project directory, you can run:
+### **Crear el archivo *tailwind.config.js en la raiz de tu proyecto*** y dentro del archivo agregar:
+    module.exports = {
+    purge: ["./src/**/*.html", "./src/**/*.jsx", "./src/**/*.js"],
+    theme: {
+    extend: {
+      screens: {
+                xs: { max: "400px" },
+            },
+          },
+        },
+      };
 
-### `npm start`
+### **Crear el archivo *craco.config.js* en la raiz de tu proyecto** y dentro del archivo agregar:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+    module.exports = {
+    style: {
+        postcss: {
+        plugins: [
+            require("tailwindcss")("./tailwind.config.js"),
+            require("postcss-nested"),
+          ],
+        },
+      },
+    };
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Luego nos vamos al package.json y usamos **craco** en vez de **react-scripts**
 
-### `npm test`
+    De esto:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+    "scripts": {
+      "start": "react-scripts start",
+      "build": "react-scripts build",
+      "test": "react-scripts test",
+      "eject": "react-scripts eject"
+    },
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+    A esto:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+    "scripts": {
+      "start": "craco start",
+      "build": "craco build",
+      "test": "craco test"
+      "eject": "react-scripts eject"
+    },
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+### **Luego en el archivo *src/index.css*** agregar:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+    @tailwind base;
+    @tailwind components;
+    @tailwind utilities;
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Luego ejecutar nuestro proyecto:
+    
+    npm start   /  yarn start
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
+### Por si ocurre un error parecido a este
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+    ./src/index.css (./node_modules/css-loader/dist/cjs.js??ref--5-oneOf-4-1!./node_modules/react-scripts/node_modules/postcss-loader/src??postcss!./src/index.css)
+    Error: PostCSS plugin tailwindcss requires PostCSS 8.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Ejecutar:
 
-### Code Splitting
+    yarn add -D postcss
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+    o cambiar a la version ^7 del postcss en el archivo package.json:
 
-### Analyzing the Bundle Size
+    "devDependencies": {
+     "postcss": "^7.0.0",
+    }
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Creditos:
+  https://dev.to/ryandunn/how-to-use-tailwind-with-create-react-app-and-postcss-with-no-hassle-2i09
